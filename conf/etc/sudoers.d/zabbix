@@ -1,0 +1,3 @@
+## Give Zabbix permission to use curl as root
+Defaults:zabbix !requiretty
+zabbix ALL = NOPASSWD: /usr/bin/curl
