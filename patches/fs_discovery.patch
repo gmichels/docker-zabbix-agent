@@ -1,0 +1,33 @@
+diff --git a/src/libs/zbxsysinfo/linux/diskspace.c b/src/libs/zbxsysinfo/linux/diskspace.c
+index e49b803..3b9ac4b 100644
+--- a/src/libs/zbxsysinfo/linux/diskspace.c
++++ b/src/libs/zbxsysinfo/linux/diskspace.c
+@@ -121,7 +121,7 @@ int	VFS_FS_SIZE(AGENT_REQUEST *request, AGENT_RESULT *result)
+ 
+ int	VFS_FS_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
+ {
+-	char		line[MAX_STRING_LEN], *p, *mpoint, *mtype;
++	char		line[MAX_STRING_LEN], *p, *mpoint, *mtype, zbxmpoint[MAX_STRING_LEN];
+ 	FILE		*f;
+ 	struct zbx_json	j;
+ 
+@@ -143,8 +143,9 @@ int	VFS_FS_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
+ 			continue;
+ 
+ 		mpoint = ++p;
++		zbx_snprintf(zbxmpoint, sizeof(zbxmpoint), "/zbx%s", mpoint);
+ 
+-		if (NULL == (p = strchr(mpoint, ' ')))
++		if (NULL == (p = strchr(zbxmpoint, ' ')))
+ 			continue;
+ 
+ 		*p = '\0';
+@@ -157,7 +158,7 @@ int	VFS_FS_DISCOVERY(AGENT_REQUEST *request, AGENT_RESULT *result)
+ 		*p = '\0';
+ 
+ 		zbx_json_addobject(&j, NULL);
+-		zbx_json_addstring(&j, "{#FSNAME}", mpoint, ZBX_JSON_TYPE_STRING);
++		zbx_json_addstring(&j, "{#FSNAME}", zbxmpoint, ZBX_JSON_TYPE_STRING);
+ 		zbx_json_addstring(&j, "{#FSTYPE}", mtype, ZBX_JSON_TYPE_STRING);
+ 		zbx_json_close(&j);
+ 	}
