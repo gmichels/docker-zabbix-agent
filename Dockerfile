@@ -47,7 +47,7 @@ ADD patches/*.patch /tmp/zabbix-${ZBX_VERSION}/
 
 RUN cd /tmp/zabbix-${ZBX_VERSION} && \
     zabbix_revision=`svn info ${ZBX_SOURCES} |grep "Last Changed Rev"|awk '{print $4;}'` && \
-    patch -p1 --dry-run < fs_discovery.patch && \
+    patch -p1 < fs_discovery.patch && \
     sed -i "s/{ZABBIX_REVISION}/$zabbix_revision/g" include/version.h && \
     grep -rl \"\/proc/mounts * | xargs sed -i.orig 's|"/proc/mounts|"/zbx/proc/1/mounts|g' && \
     grep -rl \"\/proc/net * | xargs sed -i.orig 's|"/proc/net|"/zbx/proc/1/net|g' && \
