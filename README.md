@@ -12,7 +12,7 @@ Based on the [official Zabbix Agent container](https://hub.docker.com/r/zabbix/z
 
 Start a Zabbix agent container as follows:
 
-    docker run --name some-container-name -h $(hostname) -p 10050:10050/tcp -v /var/run/docker.sock:/var/run/docker.sock -v /proc:/zbx/proc:ro -v /sys:/zbx/sys:ro -v /dev:/zbx/dev:ro -e ZBX_HOSTNAME="$(hostname)" -e ZBX_SERVER_HOST="some-zabbix-server" -e ZBX_ACTIVE_ALLOW=false -e ZBX_TIMEOUT=30 -e ZBX_ENABLEREMOTECOMMANDS="1" -d --privileged gmichels/zabbix-agent
+    docker run --name some-container-name -h $(hostname) -p 10050:10050/tcp -v /var/run/docker.sock:/var/run/docker.sock -v /:/zbx:ro -e ZBX_HOSTNAME="$(hostname)" -e ZBX_SERVER_HOST="some-zabbix-server" -e ZBX_ACTIVE_ALLOW=false -e ZBX_TIMEOUT=30 -e ZBX_ENABLEREMOTECOMMANDS="1" -d --privileged gmichels/zabbix-agent
 
 Where `some-container-name` is the name you want to assign to your container.
 
